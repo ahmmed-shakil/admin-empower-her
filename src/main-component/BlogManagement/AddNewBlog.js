@@ -2,46 +2,43 @@ import React, { useState } from "react";
 import AdminLayout from "../../components/AdminLayout/AdminLayout";
 import { Button, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
-import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
 
 const AddNewBlog = () => {
   const push = useNavigate();
 
-  const [value, setValue] = useState({
-    email: "",
-    full_name: "",
-    last_name: "",
-    password: "",
-    confirm_password: "",
-  });
+  const [Blog_Details,Set_Blog_Detials] = useState({
+    Title: "",
+    Author: "",
+    Intro: "",
+    Content: "",
+    URL: ""
+  })
 
-  const changeHandler = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-    validator.showMessages();
+const changeHandler = ({...detials}) => {
+  const { key,value } = detials;
+
+  if (value === null){
+    toast.error("Empty fields are not allowed!");
+    return ;
+  }
+  else{
+    Set_Blog_Detials((PrevDetails)=>({
+      ...PrevDetails,
+      [key]: value
+    }))
+  }
+
   };
-
-  const [validator] = React.useState(
-    new SimpleReactValidator({
-      className: "errorMessage",
-    })
-  );
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (validator.allValid()) {
-      setValue({
-        email: "",
-        full_name: "",
-        password: "",
-        confirm_password: "",
-      });
-      validator.hideMessages();
-      toast.success("Registration Complete successfully!");
+    const allFilled = Object.values(Blog_Details).every(x => x.trim() !== "");
+    if(allFilled){
+      toast.success("Blog added successfully!");
       push("/login");
-    } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+    }else{
+      toast.error("Empty fields are not allowed!");
     }
   };
   return (
@@ -56,45 +53,36 @@ const AddNewBlog = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Title"
-                  value={value.full_name}
                   variant="outlined"
                   name="title"
                   label="Blog Title"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
+                  onBlur={(e) => changeHandler({key: "Title",value: e.target.value})}
+                  onChange={(e) => changeHandler({key: "Title",value: e.target.value})}
                 />
-                {validator.message(
-                  "blog title",
-                  value.full_name,
-                  "required|alpha"
-                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Author"
-                  value={value.full_name}
                   variant="outlined"
                   name="auuthor"
                   label="Author"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
+                  onBlur={(e) => changeHandler({key: "Author",value: e.target.value})}
+                  onChange={(e) => changeHandler({key: "Author",value: e.target.value})}
                 />
-                {validator.message("author", value.full_name, "required|alpha")}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Introduction"
-                  value={value.email}
                   variant="outlined"
                   name="intro"
                   multiline
@@ -103,21 +91,15 @@ const AddNewBlog = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
+                  onBlur={(e) => changeHandler({key: "Intro",value: e.target.value})}
+                  onChange={(e) => changeHandler({key: "Intro",value: e.target.value})}
                 />
-                {validator.message(
-                  "blog introduction",
-                  value.email,
-                  "required|alpha"
-                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Content"
-                  value={value.email}
                   variant="outlined"
                   name="content"
                   label="Blog Content"
@@ -126,21 +108,15 @@ const AddNewBlog = () => {
                   }}
                   multiline
                   rows={8}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
+                  onBlur={(e) => changeHandler({key: "Content",value: e.target.value})}
+                  onChange={(e) => changeHandler({key: "Content",value: e.target.value})}
                 />
-                {validator.message(
-                  "blog content",
-                  value.email,
-                  "required|numeric"
-                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Thumbnail Url"
-                  value={value.thumb}
                   variant="outlined"
                   name="content"
                   label="Blog Thumbnail Url"
@@ -149,37 +125,10 @@ const AddNewBlog = () => {
                   }}
                   multiline
                   rows={8}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
+                  onBlur={(e) => changeHandler({key: "URL",value: e.target.value})}
+                  onChange={(e) => changeHandler({key: "URL",value: e.target.value})}
                 />
-                {validator.message(
-                  "blog content",
-                  value.thumb,
-                  "required|numeric"
-                )}
               </Grid>
-              {/* <Grid item xs={12}>
-                <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in">
-                <label htmlFor="file" className=" d-block mb-2">
-                  Upload Blog Thumbnail Image
-                </label>
-                <input
-                  value={value.file}
-                  type="file"
-                  name="thumb"
-                  id="file"
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
-                  placeholder="Blog Thumbnail"
-                />
-                {validator.message(
-                  "blog thumbnail",
-                  value.thumb,
-                  "required|file"
-                )}
-                <i className="ti-cloud-up"></i>
-                </div>
-              </Grid> */}
               <Grid item xs={12}>
                 <Grid className="formFooter">
                   <Button
