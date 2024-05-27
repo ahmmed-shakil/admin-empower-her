@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../images/admin.png";
 import dashboard from "../../images/dashboard.png";
 import list from "../../images/list.png";
 import users from "../../images/users.png";
 import user from "../../images/user.png";
 import reset from "../../images/reset.png";
+import { useUser } from "../../context/userContext";
 
 export const SidebarNav = () => {
+  const push = useNavigate();
+  const { logout, userName } = useUser();
   const { pathname } = useLocation();
   console.log("🚀 ~ SidebarNav ~ pathname:", pathname);
   const [hovered, setHovered] = useState(false);
@@ -57,7 +60,10 @@ export const SidebarNav = () => {
       icon: reset,
     },
   ];
-
+  const logoutHandler = () => {
+    logout();
+    push("/");
+  };
   return (
     <div>
       <div
@@ -119,7 +125,12 @@ export const SidebarNav = () => {
           </div>
 
           <div className="mt-auto">
-            <button className="btn btn-danger w-100 mt-4">LOGOUT</button>
+            <button
+              className="btn btn-danger w-100 mt-4"
+              onClick={logoutHandler}
+            >
+              LOGOUT
+            </button>
           </div>
         </div>
       </div>

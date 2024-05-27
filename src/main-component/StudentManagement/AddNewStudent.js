@@ -4,16 +4,18 @@ import { Button, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { base_url } from "../../utils/baseUrl";
 
 const AddNewStudent = () => {
   const push = useNavigate();
 
   const [value, setValue] = useState({
     email: "",
-    full_name: "",
+    first_name: "",
     last_name: "",
     password: "",
-    confirm_password: "",
+    contact: "",
   });
 
   const changeHandler = (e) => {
@@ -27,21 +29,39 @@ const AddNewStudent = () => {
     })
   );
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    if (validator.allValid()) {
-      setValue({
-        email: "",
-        full_name: "",
-        password: "",
-        confirm_password: "",
-      });
-      validator.hideMessages();
-      toast.success("Registration Complete successfully!");
-      push("/login");
-    } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+    try {
+      const data = {
+        firstName: value.first_name,
+        lastName: value.last_name,
+        email: value.email,
+        password: value.password,
+        contact: value.contact,
+      };
+      const response = await axios.post(
+        `${base_url}/student/create-student`,
+        data
+      );
+      console.log("🚀 ~ submitForm ~ response:", response);
+      if (response?.data?.success) {
+        toast.success("Student created successfully!");
+        console.log("Pushing");
+        push("/admin/student");
+      }
+      if (validator.allValid()) {
+        setValue({
+          email: "",
+          first_name: "",
+          password: "",
+          last_name: "",
+          contact: null,
+        });
+        validator.hideMessages();
+      }
+    } catch (error) {
+      console.log("🚀 ~ submitForm ~ error:", error);
+      toast.error(error?.response?.data?.message);
     }
   };
   return (
@@ -56,7 +76,7 @@ const AddNewStudent = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="First Name"
-                  value={value.full_name}
+                  value={value.first_name}
                   variant="outlined"
                   name="first_name"
                   label="First Name"
@@ -68,7 +88,7 @@ const AddNewStudent = () => {
                 />
                 {validator.message(
                   "first name",
-                  value.full_name,
+                  value.first_name,
                   "required|alpha"
                 )}
               </Grid>
@@ -77,7 +97,7 @@ const AddNewStudent = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Last Name"
-                  value={value.full_name}
+                  value={value.last_name}
                   variant="outlined"
                   name="last_name"
                   label="Last Name"
@@ -89,7 +109,7 @@ const AddNewStudent = () => {
                 />
                 {validator.message(
                   "last name",
-                  value.full_name,
+                  value.last_name,
                   "required|alpha"
                 )}
               </Grid>
@@ -115,7 +135,7 @@ const AddNewStudent = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Contact No"
-                  value={value.email}
+                  value={value.contact}
                   variant="outlined"
                   name="contact"
                   label="Conact No"
@@ -126,8 +146,8 @@ const AddNewStudent = () => {
                   onChange={(e) => changeHandler(e)}
                 />
                 {validator.message(
-                  "conaact no",
-                  value.email,
+                  "contact no",
+                  value.contact,
                   "required|numeric"
                 )}
               </Grid>
@@ -147,27 +167,6 @@ const AddNewStudent = () => {
                   onChange={(e) => changeHandler(e)}
                 />
                 {validator.message("password", value.password, "required")}
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className="inputOutline"
-                  fullWidth
-                  placeholder="Confirm Password"
-                  value={value.password}
-                  variant="outlined"
-                  name="confirm_password"
-                  label="Confirm Password"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
-                />
-                {validator.message(
-                  "confirm password",
-                  value.confirm_password,
-                  `in:${value.password}`
-                )}
               </Grid>
               <Grid item xs={12}>
                 <Grid className="formFooter">

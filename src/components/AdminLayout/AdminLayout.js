@@ -1,11 +1,17 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import SidebarNav from "./SidebarNav";
 import Navbar from "../Navbar/Navbar";
 import Header from "../header/Header";
 import Scrollbar from "../scrollbar/scrollbar";
+import { useUser } from "../../context/userContext";
 
 const AdminLayout = ({ children }) => {
+  const push = useNavigate();
+  const { userId } = useUser();
+  useEffect(() => {
+    !userId && push("/");
+  }, [userId, push]);
   return (
     <div className="row">
       <div className=" d-none d-lg-block col-2">

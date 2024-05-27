@@ -1,27 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from '../src/main-component/App/App';
-import reportWebVitals from './reportWebVitals';
-import { ParallaxProvider } from 'react-scroll-parallax';
-import './css/font-awesome.min.css';
-import './css/themify-icons.css';
-import './css/animate.css';
-import './css/flaticon.css';
-import './sass/style.scss';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "../src/main-component/App/App";
+import reportWebVitals from "./reportWebVitals";
+import { ParallaxProvider } from "react-scroll-parallax";
+import "./css/font-awesome.min.css";
+import "./css/themify-icons.css";
+import "./css/animate.css";
+import "./css/flaticon.css";
+import "./sass/style.scss";
 
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store/index";
 import { Provider } from "react-redux";
+import { UserProvider } from "./context/userContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <UserProvider>
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <ParallaxProvider>
-                <App />
-            </ParallaxProvider>
-        </PersistGate>
+      <PersistGate loading={null} persistor={persistor}>
+        <ParallaxProvider>
+          <App />
+        </ParallaxProvider>
+      </PersistGate>
     </Provider>
+  </UserProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -4,8 +4,10 @@ import MobileMenu from "../MobileMenu/MobileMenu";
 import Logo from "../../images/logo_main.png";
 import userImg from "../../images/user.png";
 import HeaderTopbar from "../HeaderTopbar/HeaderTopbar";
+import { useUser } from "../../context/userContext";
 
 const Header = (props) => {
+  const { userName } = useUser();
   const [menuActive, setMenuState] = useState(false);
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -70,7 +72,7 @@ const Header = (props) => {
                             src={userImg}
                             alt="logo"
                           />{" "}
-                          <h6 className=" m-0 p-0 ms-2">John Doe</h6>
+                          <h6 className=" m-0 p-0 ms-2">{userName}</h6>
                         </Link>
                       </li>
                     </ul>
