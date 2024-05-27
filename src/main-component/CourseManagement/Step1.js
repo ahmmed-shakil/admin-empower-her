@@ -40,7 +40,24 @@ const Step1 = ({ value, changeHandler, validator, setStep }) => {
         {validator.message("Description", value.desc, "required|alpha")}
       </Grid>
       <Grid item xs={12}>
-        {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in"> */}
+        <TextField
+          className="inputOutline"
+          fullWidth
+          placeholder="Course Thumbnail Url"
+          value={value.thumb}
+          variant="outlined"
+          name="thumb"
+          label="Thumbnail Url"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onBlur={(e) => changeHandler(e)}
+          onChange={(e) => changeHandler(e)}
+        />
+        {validator.message("Description", value.thumb, "required|alpha")}
+      </Grid>
+      {/* <Grid item xs={12}>
+        <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in">
         <label htmlFor="file" className=" d-block mb-2">
           Upload Course Thumbnail Image
         </label>
@@ -55,8 +72,8 @@ const Step1 = ({ value, changeHandler, validator, setStep }) => {
         />
         {validator.message("Course Thumbnail", value.thumb, "required|file")}
         <i className="ti-cloud-up"></i>
-        {/* </div> */}
-      </Grid>
+        </div>
+      </Grid> */}
 
       <Grid item xs={12}>
         <Grid className="formFooter">

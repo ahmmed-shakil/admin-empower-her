@@ -14,7 +14,7 @@ const AddNewCourse = () => {
 
   const [value, setValue] = useState({
     title: "",
-    thumb: null,
+    thumb: "",
     desc: "",
     modules: [],
   });
