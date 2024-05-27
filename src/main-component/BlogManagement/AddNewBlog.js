@@ -136,7 +136,30 @@ const AddNewBlog = () => {
                 )}
               </Grid>
               <Grid item xs={12}>
-                {/* <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in"> */}
+                <TextField
+                  className="inputOutline"
+                  fullWidth
+                  placeholder="Blog Thumbnail Url"
+                  value={value.thumb}
+                  variant="outlined"
+                  name="content"
+                  label="Blog Thumbnail Url"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  multiline
+                  rows={8}
+                  onBlur={(e) => changeHandler(e)}
+                  onChange={(e) => changeHandler(e)}
+                />
+                {validator.message(
+                  "blog content",
+                  value.thumb,
+                  "required|numeric"
+                )}
+              </Grid>
+              {/* <Grid item xs={12}>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in">
                 <label htmlFor="file" className=" d-block mb-2">
                   Upload Blog Thumbnail Image
                 </label>
@@ -155,8 +178,8 @@ const AddNewBlog = () => {
                   "required|file"
                 )}
                 <i className="ti-cloud-up"></i>
-                {/* </div> */}
-              </Grid>
+                </div>
+              </Grid> */}
               <Grid item xs={12}>
                 <Grid className="formFooter">
                   <Button
