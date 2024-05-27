@@ -57,7 +57,7 @@ const AllRoute = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="dashboard" element={<Homepage />} />
+          <Route path="/dashboard" element={<Homepage />} />
           <Route path="home" element={<LoginPage />} />
           <Route path="home-2" element={<HomePage2 />} />
           <Route path="home-3" element={<HomePage3 />} />
