@@ -1,12 +1,16 @@
 import { Grid, TextField, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const Step2 = ({ value, changeHandler, validator, setStep }) => {
+const Step2 = ({ value, changeHandler, validator, setStep, setValue }) => {
   const [modules, setModules] = useState(value.modules ? value.modules : []);
 
   const handleAddModule = () => {
-    setModules([...modules, { moduleTitle: "", lessons: [] }]);
+    setModules([...modules, { title: "", lessons: [] }]);
   };
+
+  useEffect(() => {
+    setValue({ ...value, modules });
+  }, [modules?.length]);
 
   const handleModuleChange = (event, moduleIndex, field) => {
     const newModules = [...modules];
@@ -55,14 +59,12 @@ const Step2 = ({ value, changeHandler, validator, setStep }) => {
                 className="inputOutline"
                 fullWidth
                 placeholder="Module Title"
-                value={module.moduleTitle}
+                value={module.title}
                 variant="outlined"
-                name="moduleTitle"
+                name="title"
                 label="Module Title"
                 InputLabelProps={{ shrink: true }}
-                onChange={(e) =>
-                  handleModuleChange(e, moduleIndex, "moduleTitle")
-                }
+                onChange={(e) => handleModuleChange(e, moduleIndex, "title")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -77,9 +79,9 @@ const Step2 = ({ value, changeHandler, validator, setStep }) => {
                       className="inputOutline"
                       fullWidth
                       placeholder="Lesson Title"
-                      value={lesson.lessonTitle}
+                      value={lesson.title}
                       variant="outlined"
-                      name="lessonTitle"
+                      name="title"
                       label="Lesson Title"
                       InputLabelProps={{ shrink: true }}
                       onBlur={(e) =>
@@ -95,9 +97,9 @@ const Step2 = ({ value, changeHandler, validator, setStep }) => {
                       className="inputOutline"
                       fullWidth
                       placeholder="Lesson URL"
-                      value={lesson.lessonUrl}
+                      value={lesson.url}
                       variant="outlined"
-                      name="lessonUrl"
+                      name="url"
                       label="Lesson URL"
                       InputLabelProps={{ shrink: true }}
                       onBlur={(e) =>

@@ -10,7 +10,8 @@ import { base_url } from "../../utils/baseUrl";
 const AddNewStudent = () => {
   const push = useNavigate();
 
-  const { studenId } = useParams();
+  const { studentId } = useParams();
+  console.log("🚀 ~ AddNewStudent ~ studenId:", studentId);
 
   const [value, setValue] = useState({
     email: "",
@@ -21,17 +22,17 @@ const AddNewStudent = () => {
 
   useEffect(() => {
     const fetchStudent = async () => {
-      const response = await axios.get(`${base_url}/student/${studenId}`);
+      const response = await axios.get(`${base_url}/student/${studentId}`);
       const data = {
-        firstName: response?.data?.firstName,
-        lastName: response?.data?.lastName,
+        first_name: response?.data?.firstName,
+        last_name: response?.data?.lastName,
         email: response?.data?.email,
         contact: response?.data?.contact,
       };
       setValue(data);
     };
     fetchStudent();
-  }, [studenId]);
+  }, [studentId]);
 
   const changeHandler = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -63,7 +64,7 @@ const AddNewStudent = () => {
 
         validator.hideMessages();
         const response = await axios.put(
-          `${base_url}/student/${studenId}`,
+          `${base_url}/student/${studentId}`,
           data
         );
         if (response.data?.success) {

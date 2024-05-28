@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "../../components/AdminLayout/AdminLayout";
 import { Button, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import SimpleReactValidator from "simple-react-validator";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { base_url } from "../../utils/baseUrl";
 
 const UpdateAdmin = () => {
   const push = useNavigate();
 
+  const { adminId } = useParams();
+  console.log("🚀 ~ UpdateAdmin ~ param:", adminId);
+
   const [value, setValue] = useState({
     email: "",
-    full_name: "",
+    first_name: "",
     last_name: "",
-    password: "",
-    confirm_password: "",
+    contact: null,
   });
+
+  useEffect(() => {
+    const fetchStudent = async () => {
+      const response = await axios.get(`${base_url}/admin/${adminId}`);
+      const data = {
+        first_name: response?.data?.firstName,
+        last_name: response?.data?.lastName,
+        email: response?.data?.email,
+        contact: response?.data?.contact,
+      };
+      setValue(data);
+    };
+    fetchStudent();
+  }, [adminId]);
 
   const changeHandler = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -27,21 +45,36 @@ const UpdateAdmin = () => {
     })
   );
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    if (validator.allValid()) {
-      setValue({
-        email: "",
-        full_name: "",
-        password: "",
-        confirm_password: "",
-      });
-      validator.hideMessages();
-      toast.success("Registration Complete successfully!");
-      push("/login");
-    } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+    try {
+      const data = {
+        firstName: value.first_name,
+        lastName: value.last_name,
+        contact: value?.contact,
+        email: value?.email,
+      };
+      if (validator.allValid()) {
+        setValue({
+          email: "",
+          first_name: "",
+          last_name: "",
+          contact: null,
+        });
+
+        validator.hideMessages();
+        const response = await axios.put(`${base_url}/admin/${adminId}`, data);
+        if (response.data?.success) {
+          toast.success("Admin info updated successfully!");
+          push("/admin/admins");
+        }
+      } else {
+        validator.showMessages();
+        toast.error("Empty field is not allowed!");
+      }
+    } catch (error) {
+      console.log("🚀 ~ submitForm ~ error:", error);
+      toast.error(error?.response?.data?.message);
     }
   };
   return (
@@ -56,7 +89,7 @@ const UpdateAdmin = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="First Name"
-                  value={value.full_name}
+                  value={value.first_name}
                   variant="outlined"
                   name="first_name"
                   label="First Name"
@@ -68,7 +101,7 @@ const UpdateAdmin = () => {
                 />
                 {validator.message(
                   "first name",
-                  value.full_name,
+                  value.first_name,
                   "required|alpha"
                 )}
               </Grid>
@@ -77,7 +110,7 @@ const UpdateAdmin = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Last Name"
-                  value={value.full_name}
+                  value={value.last_name}
                   variant="outlined"
                   name="last_name"
                   label="Last Name"
@@ -89,7 +122,7 @@ const UpdateAdmin = () => {
                 />
                 {validator.message(
                   "last name",
-                  value.full_name,
+                  value.last_name,
                   "required|alpha"
                 )}
               </Grid>
@@ -115,7 +148,7 @@ const UpdateAdmin = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Contact No"
-                  value={value.email}
+                  value={value.contact}
                   variant="outlined"
                   name="contact"
                   label="Conact No"
@@ -127,46 +160,8 @@ const UpdateAdmin = () => {
                 />
                 {validator.message(
                   "conaact no",
-                  value.email,
+                  value.contact,
                   "required|numeric"
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className="inputOutline"
-                  fullWidth
-                  placeholder="Password"
-                  value={value.password}
-                  variant="outlined"
-                  name="password"
-                  label="Password"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
-                />
-                {validator.message("password", value.password, "required")}
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className="inputOutline"
-                  fullWidth
-                  placeholder="Confirm Password"
-                  value={value.password}
-                  variant="outlined"
-                  name="confirm_password"
-                  label="Confirm Password"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onBlur={(e) => changeHandler(e)}
-                  onChange={(e) => changeHandler(e)}
-                />
-                {validator.message(
-                  "confirm password",
-                  value.confirm_password,
-                  `in:${value.password}`
                 )}
               </Grid>
               <Grid item xs={12}>

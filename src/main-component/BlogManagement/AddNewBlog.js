@@ -4,16 +4,18 @@ import { Button, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { base_url } from "../../utils/baseUrl";
 
 const AddNewBlog = () => {
   const push = useNavigate();
 
   const [value, setValue] = useState({
-    email: "",
-    full_name: "",
-    last_name: "",
-    password: "",
-    confirm_password: "",
+    title: "",
+    author: "",
+    intro: "",
+    desc: "",
+    thumb: "",
   });
 
   const changeHandler = (e) => {
@@ -27,21 +29,36 @@ const AddNewBlog = () => {
     })
   );
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    if (validator.allValid()) {
-      setValue({
-        email: "",
-        full_name: "",
-        password: "",
-        confirm_password: "",
-      });
-      validator.hideMessages();
-      toast.success("Registration Complete successfully!");
-      push("/login");
-    } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+    try {
+      const data = {
+        title: value?.title,
+        author: value?.author,
+        intro: value?.author,
+        desc: value?.desc,
+        thumb: value?.thumb,
+      };
+      const response = await axios.post(`${base_url}/blog/post-blog`, data);
+      if (response?.data?.success) {
+        toast.success("Blog posted successfully");
+        push("/admin/blog");
+      }
+      if (validator.allValid()) {
+        setValue({
+          title: "",
+          author: "",
+          intro: "",
+          desc: "",
+          thumb: "",
+        });
+        validator.hideMessages();
+      } else {
+        validator.showMessages();
+        toast.error("Empty field is not allowed!");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
     }
   };
   return (
@@ -56,7 +73,7 @@ const AddNewBlog = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Title"
-                  value={value.full_name}
+                  value={value.title}
                   variant="outlined"
                   name="title"
                   label="Blog Title"
@@ -66,20 +83,16 @@ const AddNewBlog = () => {
                   onBlur={(e) => changeHandler(e)}
                   onChange={(e) => changeHandler(e)}
                 />
-                {validator.message(
-                  "blog title",
-                  value.full_name,
-                  "required|alpha"
-                )}
+                {validator.message("blog title", value.title, "required")}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Author"
-                  value={value.full_name}
+                  value={value.author}
                   variant="outlined"
-                  name="auuthor"
+                  name="author"
                   label="Author"
                   InputLabelProps={{
                     shrink: true,
@@ -87,14 +100,14 @@ const AddNewBlog = () => {
                   onBlur={(e) => changeHandler(e)}
                   onChange={(e) => changeHandler(e)}
                 />
-                {validator.message("author", value.full_name, "required|alpha")}
+                {validator.message("author", value.author, "required")}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Introduction"
-                  value={value.email}
+                  value={value.intro}
                   variant="outlined"
                   name="intro"
                   multiline
@@ -108,8 +121,8 @@ const AddNewBlog = () => {
                 />
                 {validator.message(
                   "blog introduction",
-                  value.email,
-                  "required|alpha"
+                  value.intro,
+                  "required"
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -117,9 +130,9 @@ const AddNewBlog = () => {
                   className="inputOutline"
                   fullWidth
                   placeholder="Blog Content"
-                  value={value.email}
+                  value={value.desc}
                   variant="outlined"
-                  name="content"
+                  name="desc"
                   label="Blog Content"
                   InputLabelProps={{
                     shrink: true,
@@ -129,11 +142,7 @@ const AddNewBlog = () => {
                   onBlur={(e) => changeHandler(e)}
                   onChange={(e) => changeHandler(e)}
                 />
-                {validator.message(
-                  "blog content",
-                  value.email,
-                  "required|numeric"
-                )}
+                {validator.message("blog content", value.desc, "required")}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -142,21 +151,17 @@ const AddNewBlog = () => {
                   placeholder="Blog Thumbnail Url"
                   value={value.thumb}
                   variant="outlined"
-                  name="content"
+                  name="thumb"
                   label="Blog Thumbnail Url"
                   InputLabelProps={{
                     shrink: true,
                   }}
                   multiline
-                  rows={8}
+                  rows={3}
                   onBlur={(e) => changeHandler(e)}
                   onChange={(e) => changeHandler(e)}
                 />
-                {validator.message(
-                  "blog content",
-                  value.thumb,
-                  "required|numeric"
-                )}
+                {validator.message("blog content", value.thumb, "required")}
               </Grid>
               {/* <Grid item xs={12}>
                 <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in">

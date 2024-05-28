@@ -54,7 +54,7 @@ const Step1 = ({ value, changeHandler, validator, setStep }) => {
           onBlur={(e) => changeHandler(e)}
           onChange={(e) => changeHandler(e)}
         />
-        {validator.message("Description", value.thumb, "required|alpha")}
+        {validator.message("Description", value.thumb, "required")}
       </Grid>
       {/* <Grid item xs={12}>
         <div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group form-group-in">

@@ -74,7 +74,7 @@ const StudentManagement = () => {
                                 <ul>
                                   <Link
                                     className=" me-2"
-                                    to={`/admin/update-student/12213`}
+                                    to={`/admin/update-student/${student?._id}`}
                                   >
                                     <li
                                       className="w-btn me-2"

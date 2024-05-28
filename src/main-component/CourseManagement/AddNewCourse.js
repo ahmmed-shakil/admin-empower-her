@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { Grid, TextField } from "@mui/material";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import axios from "axios";
+import { base_url } from "../../utils/baseUrl";
 
 const AddNewCourse = () => {
   const push = useNavigate();
@@ -16,8 +18,10 @@ const AddNewCourse = () => {
     title: "",
     thumb: "",
     desc: "",
-    modules: [],
   });
+
+  const [moduleValue, setModuleValue] = useState([]);
+  console.log("🚀 ~ AddNewCourse ~ moduleValue:", moduleValue);
 
   console.log("Value", value);
 
@@ -38,21 +42,40 @@ const AddNewCourse = () => {
     })
   );
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    if (validator.allValid()) {
-      setValue({
-        email: "",
-        full_name: "",
-        password: "",
-        confirm_password: "",
+    try {
+      const courseData = value;
+      console.log("🚀 ~ submitForm ~ value:", value);
+      const moduels = moduleValue?.modules;
+      console.log("🚀 ~ submitForm ~ moduleValue:", moduleValue?.modules);
+      if (!moduels?.length) {
+        toast.error("No modules added");
+        return;
+      }
+
+      const result = await axios.post(`${base_url}/course/create-course`, {
+        courseData,
+        modules: moduels,
       });
-      validator.hideMessages();
-      toast.success("Registration Complete successfully!");
-      push("/login");
-    } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+      if (result?.data?.success) {
+        toast.success("Course created successfully");
+        push("/admin/course");
+      }
+
+      if (validator.allValid()) {
+        setValue({
+          title: "",
+          thumb: "",
+          desc: "",
+        });
+        validator.hideMessages();
+      } else {
+        validator.showMessages();
+        toast.error("Empty field is not allowed!");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
     }
   };
   return (
@@ -74,10 +97,11 @@ const AddNewCourse = () => {
             )}
             {step === 2 && (
               <Step2
-                value={value}
+                value={moduleValue}
                 validator={validator}
                 changeHandler={changeModuleHandler}
                 setStep={setStep}
+                setValue={setModuleValue}
               />
             )}
           </form>
