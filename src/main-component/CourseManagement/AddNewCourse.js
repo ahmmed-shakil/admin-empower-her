@@ -70,9 +70,6 @@ const AddNewCourse = () => {
           desc: "",
         });
         validator.hideMessages();
-      } else {
-        validator.showMessages();
-        toast.error("Empty field is not allowed!");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
