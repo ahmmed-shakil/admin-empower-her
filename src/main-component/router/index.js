@@ -50,6 +50,7 @@ import UpdateStudent from "../StudentManagement/UpdateStudent";
 import AddNewBlog from "../BlogManagement/AddNewBlog";
 import AddNewAdmin from "../AdminsManagement/AddNewAdmin";
 import UpdateAdmin from "../AdminsManagement/UpdateAdmin";
+import MyProfile from "../LoginPage/Myprofile";
 
 const AllRoute = () => {
   return (
@@ -85,6 +86,7 @@ const AllRoute = () => {
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="order_received" element={<OrderRecived />} />
           <Route path="faq" element={<FaqPage />} />
+          <Route path="my-profile" element={<MyProfile />} />
           <Route path="privacy" element={<PrivacyPage />} />
           <Route path="terms" element={<TermsPage />} />
           <Route path="blog" element={<BlogPage />} />

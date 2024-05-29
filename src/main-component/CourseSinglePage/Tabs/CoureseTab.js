@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
-import classnames from 'classnames';
-import Overview from './Overview';
-import Curriculum from './Curriculum';
-import Instructor from './Instructor';
-import Review from './Review';
+import React, { useState } from "react";
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col,
+} from "reactstrap";
+import classnames from "classnames";
+import Overview from "./Overview";
+import Curriculum from "./Curriculum";
+import Instructor from "./Instructor";
+import Review from "./Review";
 
+const CoureseTab = ({ EventsDetails, modules }) => {
+  const [activeTab, setActiveTab] = useState("1");
 
-
-const CoureseTab = ({ EventsDetails }) => {
-  const [activeTab, setActiveTab] = useState('1');
-
-  const toggle = tab => {
+  const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
-  }
+  };
 
   return (
     <div>
@@ -21,22 +27,25 @@ const CoureseTab = ({ EventsDetails }) => {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === '1' })}
-              onClick={() => { toggle('1'); }}
+              className={classnames({ active: activeTab === "1" })}
+              onClick={() => {
+                toggle("1");
+              }}
             >
               Overview
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: activeTab === '2' })}
-              onClick={() => { toggle('2'); }}
+              className={classnames({ active: activeTab === "2" })}
+              onClick={() => {
+                toggle("2");
+              }}
             >
-
               Curriculum
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: activeTab === '3' })}
               onClick={() => { toggle('3'); }}
@@ -44,8 +53,8 @@ const CoureseTab = ({ EventsDetails }) => {
 
               instructor
             </NavLink>
-          </NavItem>
-          <NavItem>
+          </NavItem> */}
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: activeTab === '4' })}
               onClick={() => { toggle('4'); }}
@@ -53,7 +62,7 @@ const CoureseTab = ({ EventsDetails }) => {
 
               reviews
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </div>
       <div className="wpo-course-details-text">
@@ -61,18 +70,18 @@ const CoureseTab = ({ EventsDetails }) => {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <Overview />
+                <Overview course={EventsDetails} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <Curriculum />
+                <Curriculum modules={modules} />
               </Col>
             </Row>
           </TabPane>
-          <TabPane tabId="3">
+          {/* <TabPane tabId="3">
             <Row>
               <Col sm="12">
                 <Instructor />
@@ -85,12 +94,11 @@ const CoureseTab = ({ EventsDetails }) => {
                 <Review />
               </Col>
             </Row>
-          </TabPane>
-
+          </TabPane> */}
         </TabContent>
       </div>
     </div>
   );
-}
+};
 
 export default CoureseTab;

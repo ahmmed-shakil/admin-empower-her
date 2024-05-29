@@ -63,7 +63,7 @@ const LoginPage = (props) => {
 
         if (response?.data?.data?._id) {
           login(response?.data?.data?.id, response?.data?.data?.fullName);
-          toast.success("You successfully logged in on Eduko!");
+          toast.success("You successfully logged in on EmpowerHer!");
           // push("/home");
         } else {
           toast.error("Failed to log in. Please check your credentials.");
@@ -129,18 +129,10 @@ const LoginPage = (props) => {
               {validator.message("password", value.password, "required")}
             </Grid>
             <Grid item xs={12}>
-              <Grid className="formAction">
-                {/* <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={value.remember}
-                      onChange={rememberHandler}
-                    />
-                  }
-                  label="Remember Me"
-                /> */}
+              {/* <Grid className="formAction">
+               
                 <Link to="/forgot-password">Forgot Password?</Link>
-              </Grid>
+              </Grid> */}
               <Grid className="formFooter">
                 <Button fullWidth className="cBtnTheme" type="submit">
                   Login

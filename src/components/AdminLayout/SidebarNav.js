@@ -50,14 +50,8 @@ export const SidebarNav = () => {
     {
       id: 92,
       title: "Personal Information",
-      path: "/admin/profile",
+      path: "/my-profile",
       icon: user,
-    },
-    {
-      id: 93,
-      title: "Reset Password",
-      path: "/admin/reset-password",
-      icon: reset,
     },
   ];
   const logoutHandler = () => {

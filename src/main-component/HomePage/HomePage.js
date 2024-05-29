@@ -20,7 +20,7 @@ import HomeFeatures from "./HomeFeatures";
 const HomePage = () => {
   return (
     <AdminLayout>
-      <HomeFeatures />
+      {/* <HomeFeatures /> */}
       <HomeComponent />
     </AdminLayout>
   );

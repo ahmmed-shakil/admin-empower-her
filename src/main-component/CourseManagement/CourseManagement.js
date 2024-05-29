@@ -77,18 +77,13 @@ const CourseManagement = () => {
                                 <ul>
                                   <Link
                                     className=" me-2"
-                                    to={`/admin/update-course/134`}
+                                    to={`/admin/course-single/${course?._id}`}
                                   >
-                                    <li
-                                      className="w-btn"
-                                      // onClick={() =>
-                                      //   props.removeFromCart(catItem.id)
-                                      // }
-                                    >
+                                    <li className="w-btn">
                                       <i className="fi ti-link"></i>
                                     </li>
                                   </Link>
-                                  <Link
+                                  {/* <Link
                                     className=" me-2"
                                     to={`/admin/update-course/${course?._id}`}
                                   >
@@ -100,7 +95,7 @@ const CourseManagement = () => {
                                     >
                                       <i className="fi ti-pencil"></i>
                                     </li>
-                                  </Link>
+                                  </Link> */}
                                   <li
                                     className="w-btn"
                                     // onClick={() =>
