@@ -75,14 +75,14 @@ const CourseManagement = () => {
                               {/* <td className="stock">10</td> */}
                               <td className="action">
                                 <ul>
-                                  <Link
+                                  {/* <Link
                                     className=" me-2"
                                     to={`/admin/course-single/${course?._id}`}
                                   >
                                     <li className="w-btn">
                                       <i className="fi ti-link"></i>
                                     </li>
-                                  </Link>
+                                  </Link> */}
                                   {/* <Link
                                     className=" me-2"
                                     to={`/admin/update-course/${course?._id}`}

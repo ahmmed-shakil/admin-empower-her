@@ -69,7 +69,10 @@ const BlogManagement = () => {
                               </td>
                               <td className="action">
                                 <ul>
-                                  <Link to={`/`} className=" me-2">
+                                  <Link
+                                    to={`/blog-single/${blog?._id}`}
+                                    className=" me-2"
+                                  >
                                     <li
                                       className="w-btn"
                                       // onClick={() =>
